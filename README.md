@@ -17,3 +17,8 @@ Guidelines are vague beyond this, and as it is to function as a showcase of my c
 == Advanced Goals ==
 * have home be a webpage with a field that accepts a string. On submit stay on same page but make API call to display returned string. 
 * style page like a final fantasy UI. 
+
+== How to Run ==
+From a command line in the /flask-desktop-api directory, execute the following:
+        $ pip install -r requirements.txt
+        $ python -m application.app

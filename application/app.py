@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, abort
 
 app = Flask(__name__, template_folder="templates", static_folder= "static")
 
@@ -11,18 +11,21 @@ def Index():
 @app.route('/test', methods= ['POST'])
 def Test():
     returnable = {}
-    returnable["return_string"] = chop(request.json["string_to_cut"])
-    print(returnable)
+    
+    if request.is_json and "string_to_cut" in request.json:
+        returnable["return_string"] = chop(request.json["string_to_cut"])
+    else:
+        abort(400)
     return jsonify(returnable)
 
 # Function to work on string
-def chop(string):
+def chop(inputString):
     returnable = ""
-    for c in range(len(string)):
+    for c in range(len(inputString)):
         if c % 3 == 2:
-            returnable += string[c]
+            returnable += inputString[c]
     return returnable
 
-print(chop("003003003003003003")) #for testing
 
-app.run(debug=True, host="0.0.0.0", port=5000)
+if __name__ == "__main__":
+    app.run(debug=True, host="0.0.0.0", port=5000)
